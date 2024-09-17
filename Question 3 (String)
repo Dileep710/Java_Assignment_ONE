@@ -1,0 +1,57 @@
+class TextJustification 
+{
+    public List<String> fullJustify(String[] words, int maxWidth) 
+   {
+        List<String> justifiedText = new ArrayList<>();
+        int currentLineLength = 0;
+        int wordCount = 0;
+        StringBuilder currentLine = new StringBuilder();
+
+        for (String word : words) 
+       {    int wordLength = word.length();
+            if (currentLineLength + wordLength + wordCount > maxWidth) 
+            {   justifyLine(currentLine, wordCount, maxWidth, justifiedText);
+                currentLine = new StringBuilder();
+                currentLineLength = 0;
+                wordCount = 0;
+            }
+            currentLine.append(word).append(" ");
+            currentLineLength += wordLength + 1;
+            wordCount++;
+        }
+        justifyLastLine(currentLine, justifiedText);
+        return justifiedText;
+    }
+    private void justifyLine(StringBuilder currentLine, int wordCount, int maxWidth, List<String> justifiedText) 
+   {
+        int totalSpaces = maxWidth - currentLineLength + wordCount - 1;
+        int spacesPerGroup = totalSpaces / (wordCount - 1);
+        int extraSpaces = totalSpaces % (wordCount - 1);
+
+        String justifiedString = currentLine.toString().trim();
+        String[] words = justifiedString.split(" ");
+
+        for (int i = 0; i < words.length - 1; i++) 
+        {
+            justifiedString = justifiedString.replaceFirst(" ", " ".repeat(spacesPerGroup + (i < extraSpaces ? 1 : 0)));
+        }
+        justifiedText.add(justifiedString);
+    }
+
+    private void justifyLastLine(StringBuilder currentLine, List<String> justifiedText) 
+   {
+        String justifiedString = currentLine.toString().trim();
+        justifiedText.add(justifiedString);
+    }
+    public static void main(String[] args) 
+   {
+        String[] words = {"This", "is", "an", "example", "of", "text", "justification."};
+        int maxWidth = 16;
+        TextJustification textJustification = new TextJustification();
+        List<String> justifiedText = textJustification.fullJustify(words, maxWidth);
+
+        for(String line : justifiedText) 
+        {    System.out.println(line);
+        }
+    }
+}
