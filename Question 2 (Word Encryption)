@@ -1,0 +1,39 @@
+import java.util.Scanner;
+
+public class Encryption 
+{
+
+    public static String encryptString(String input1, int input2) 
+       {
+        StringBuilder encryptedString = new StringBuilder();
+          for (int i = 0; i < input1.length(); i++) 
+          {
+            char currentChar = input1.charAt(i);
+            int characterValue = currentChar - 'A'; 
+
+            if (Character.isLowerCase(currentChar)) 
+            {
+                characterValue = currentChar - 'a';
+            }
+            int encryptedValue = (characterValue + input2) % 26;
+            char encryptedChar = (char) (encryptedValue + 'A');
+
+            if (Character.isLowerCase(currentChar)) 
+            {   encryptedChar = Character.toLowerCase(encryptedChar);
+            }
+             encryptedString.append(encryptedChar);
+        }  return encryptedString.toString();
+    }
+
+    public static void main(String[] args) 
+   {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the string to encrypt: ");
+        String inputString = scanner.nextLine();
+        System.out.print("Enter the key value: ");
+        int keyValue = scanner.nextInt();
+        String encryptedString = encryptString(inputString, keyValue);
+        System.out.println("Encrypted string: " + encryptedString);
+    }
+}
